@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:weather_forecast/service/http_service.dart';
+import 'package:weather_forecast/model/weather_brain.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,7 +13,6 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   String locationName = '';
   late AnimationController _animationController;
-  final HTTPService _httpService = HTTPService();
   bool isLoad = false;
   int _selectedIndex = 0;
 
@@ -25,6 +24,7 @@ class _HomePageState extends State<HomePage>
 
   @override
   void initState() {
+    final WeatherBrain _weatherBrain = WeatherBrain(locationName: '新北市');
     super.initState();
     _animationController = AnimationController(
       vsync: this,
@@ -42,21 +42,18 @@ class _HomePageState extends State<HomePage>
               backgroundImage: AssetImage('images/sun_raise.png'),
             ),
             label: '00 ~ 06',
-            backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
             icon: CircleAvatar(
               backgroundImage: AssetImage('images/sun_set.png'),
             ),
             label: '06 ~ 18',
-            backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
             icon: CircleAvatar(
-              backgroundImage: AssetImage('images/moon.png'),
+              backgroundImage: AssetImage('images/moon_light.png'),
             ),
             label: '18 ~ 06',
-            backgroundColor: Colors.purple,
           ),
         ],
         currentIndex: _selectedIndex,

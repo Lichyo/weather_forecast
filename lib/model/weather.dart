@@ -1,10 +1,11 @@
 class Weather {
+  Map<String, Weather>? weathers;
   String locationName;
   String wx;
   int pop;
   double minT;
   double maxT;
-  String cI;
+  String ci;
 
   Weather({
     required this.locationName,
@@ -12,6 +13,6 @@ class Weather {
     required this.pop,
     required this.minT,
     required this.maxT,
-    required this.cI,
+    required this.ci,
   });
 }
