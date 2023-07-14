@@ -30,32 +30,37 @@ class _HomePageState extends State<HomePage>
       vsync: this,
       duration: const Duration(seconds: 3),
     )..repeat();
-    _httpService.getHTTP(locationName: '');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Image.asset('images/sun_raise.png'),
+            icon: CircleAvatar(
+              backgroundImage: AssetImage('images/sun_raise.png'),
+            ),
             label: '00 ~ 06',
             backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
+            icon: CircleAvatar(
+              backgroundImage: AssetImage('images/sun_set.png'),
+            ),
+            label: '06 ~ 18',
             backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: CircleAvatar(
+              backgroundImage: AssetImage('images/moon.png'),
+            ),
+            label: '18 ~ 06',
             backgroundColor: Colors.purple,
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
+        selectedItemColor: Colors.black,
         onTap: _onItemTapped,
       ),
       body: Column(
