@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:weather_forecast/model/weather_brain.dart';
+import 'package:weather_forecast/model/weather.dart';
+import 'weather_forecast_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,10 +13,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  String locationName = '';
+  String _locationName = '';
   late AnimationController _animationController;
-  bool isLoad = false;
+  bool _isLoad = true;
   int _selectedIndex = 0;
+  final WeatherBrain _weatherBrain = WeatherBrain();
+  List<Weather> weathers = [];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -24,12 +28,28 @@ class _HomePageState extends State<HomePage>
 
   @override
   void initState() {
-    final WeatherBrain _weatherBrain = WeatherBrain(locationName: '新北市');
     super.initState();
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3),
     )..repeat();
+    weathers.add(
+      Weather(
+          locationName: 'locationName',
+          wx: 'wx',
+          pop: 0,
+          minT: 0,
+          maxT: 0,
+          ci: ''),
+    );
+    // initWeathers(locationName: '臺北市');
+    // setState(() {
+    //   _isLoad = false;
+    // });
+  }
+
+  Future<void> initWeathers({required String locationName}) async {
+    weathers = await _weatherBrain.initWeatherData(locationName: locationName);
   }
 
   @override
@@ -70,7 +90,7 @@ class _HomePageState extends State<HomePage>
                   flex: 4,
                   child: TextField(
                     onChanged: (value) {
-                      locationName = value;
+                      _locationName = value;
                     },
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
@@ -80,14 +100,16 @@ class _HomePageState extends State<HomePage>
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       hintText: '請輸入城市名稱',
-                      // errorText: '尚未輸入城市名稱',
                     ),
                   ),
                 ),
                 Expanded(
                   child: TextButton(
-                    onPressed: () {
-                      //TODO: 確認送出查詢資料
+                    onPressed: () async {
+                      await initWeathers(locationName: _locationName);
+                      setState(() {
+                        _isLoad = false;
+                      });
                     },
                     child: const Text('確認'),
                   ),
@@ -95,10 +117,19 @@ class _HomePageState extends State<HomePage>
               ],
             ),
           ),
-          Expanded(
-            child: Lottie.network(
-              'https://lottie.host/a412eaae-6d84-4b34-a956-d224e1d446a9/wNaEB4gAUS.json',
-              controller: _animationController,
+          Visibility(
+            visible: !_isLoad,
+            child: WeatherForecastPage(
+              weather: weathers[0],
+            ),
+          ),
+          Visibility(
+            visible: _isLoad,
+            child: Expanded(
+              child: Lottie.network(
+                'https://lottie.host/a412eaae-6d84-4b34-a956-d224e1d446a9/wNaEB4gAUS.json',
+                controller: _animationController,
+              ),
             ),
           ),
         ],

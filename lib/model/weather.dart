@@ -1,5 +1,4 @@
 class Weather {
-  Map<String, Weather>? weathers;
   String locationName;
   String wx;
   int pop;
