@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:weather_forecast/model/weather_brain.dart';
+import 'package:weather_forecast/model/weather.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,10 +12,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  String locationName = '';
+  String _locationName = '';
   late AnimationController _animationController;
-  bool isLoad = false;
+  final bool _isLoad = false;
+  bool _hasWeatherData = false;
   int _selectedIndex = 0;
+  final WeatherBrain _weatherBrain = WeatherBrain();
 
   void _onItemTapped(int index) {
     setState(() {
@@ -24,12 +27,25 @@ class _HomePageState extends State<HomePage>
 
   @override
   void initState() {
-    final WeatherBrain _weatherBrain = WeatherBrain(locationName: '新北市');
     super.initState();
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3),
     )..repeat();
+  }
+
+  Future<void> initWeathers({required String locationName}) async {
+    List<Weather> weathers =
+        await _weatherBrain.initWeatherData(locationName: locationName);
+    for (int i = 0; i < 3; i++) {
+      print('locationName : ${weathers[i].locationName}');
+      print('wx : ${weathers[i].wx}');
+      print('minT : ${weathers[i].minT}');
+      print('maxT : ${weathers[i].maxT}');
+      print('pop : ${weathers[i].pop}');
+      print('ci : ${weathers[i].ci}');
+      print('===========================');
+    }
   }
 
   @override
@@ -70,7 +86,7 @@ class _HomePageState extends State<HomePage>
                   flex: 4,
                   child: TextField(
                     onChanged: (value) {
-                      locationName = value;
+                      _locationName = value;
                     },
                     decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
@@ -87,7 +103,7 @@ class _HomePageState extends State<HomePage>
                 Expanded(
                   child: TextButton(
                     onPressed: () {
-                      //TODO: 確認送出查詢資料
+                      initWeathers(locationName: _locationName);
                     },
                     child: const Text('確認'),
                   ),
@@ -95,10 +111,13 @@ class _HomePageState extends State<HomePage>
               ],
             ),
           ),
-          Expanded(
-            child: Lottie.network(
-              'https://lottie.host/a412eaae-6d84-4b34-a956-d224e1d446a9/wNaEB4gAUS.json',
-              controller: _animationController,
+          Visibility(
+            visible: !_hasWeatherData,
+            child: Expanded(
+              child: Lottie.network(
+                'https://lottie.host/a412eaae-6d84-4b34-a956-d224e1d446a9/wNaEB4gAUS.json',
+                controller: _animationController,
+              ),
             ),
           ),
         ],
