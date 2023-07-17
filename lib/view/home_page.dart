@@ -127,7 +127,6 @@ class _HomePageState extends State<HomePage>
                   Expanded(
                     child: Row(
                       children: [
-                        // minT
                         Expanded(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
@@ -142,11 +141,27 @@ class _HomePageState extends State<HomePage>
                                     'Min Temp',
                                     style: GoogleFonts.getFont(
                                       'Ubuntu',
-                                      color: Colors.blueAccent,
+                                      color: Colors.grey.shade600,
                                       fontSize: 20.0,
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: FittedBox(
+                                        child: Text(
+                                          '${weathers[0].minT.toString()} ºC',
+                                          style: GoogleFonts.getFont('Roboto', fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child:
+                                          _weatherBrain.determineTempImage(20),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
