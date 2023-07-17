@@ -23,7 +23,6 @@ class TempContainer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 臺北市
             Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Text(

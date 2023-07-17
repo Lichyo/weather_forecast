@@ -77,4 +77,18 @@ class WeatherBrain {
       return Image.asset('images/temp_icon/35ºC.png');
     }
   }
+
+  Image determinePOPImage(int pop) {
+    if (pop <= 30) {
+      return Image.asset('images/pop_icon/sun.png');
+    } else if (pop <= 40) {
+      return Image.asset('images/pop_icon/cloudy.png');
+    } else if (pop <= 60) {
+      return Image.asset('images/pop_icon/clouds.png');
+    } else if (pop <= 80) {
+      return Image.asset('images/pop_icon/rain.png');
+    } else {
+      return Image.asset('images/pop_icon/storm.png');
+    }
+  }
 }
