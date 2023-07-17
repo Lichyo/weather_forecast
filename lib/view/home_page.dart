@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:weather_forecast/model/weather_brain.dart';
 import 'package:weather_forecast/model/weather.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:weather_forecast/components/temp_container.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -127,54 +128,28 @@ class _HomePageState extends State<HomePage>
                   Expanded(
                     child: Row(
                       children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // 臺北市
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 10.0),
-                                  child: Text(
-                                    'Min Temp',
-                                    style: GoogleFonts.getFont(
-                                      'Ubuntu',
-                                      color: Colors.grey.shade600,
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: FittedBox(
-                                        child: Text(
-                                          '${weathers[0].minT.toString()} ºC',
-                                          style: GoogleFonts.getFont('Roboto', fontWeight: FontWeight.w600),
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child:
-                                          _weatherBrain.determineTempImage(20),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
+                        TempContainer(
+                          weatherBrain: _weatherBrain,
+                          title: 'Min Temp',
+                          temp: 20,
                         ),
-                        // maxT
-                        Expanded(
-                          child: Container(
-                            color: Colors.grey.shade700,
-                          ),
+                        const VerticalDivider(
+                          thickness: 1,
+                        ),
+                        TempContainer(
+                          weatherBrain: _weatherBrain,
+                          title: 'Max Temp',
+                          temp: 30,
                         ),
                       ],
                     ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 5,
+                      horizontal: 30.0,
+                    ),
+                    child: Divider(thickness: 1,),
                   ),
                   Expanded(
                     child: Row(
