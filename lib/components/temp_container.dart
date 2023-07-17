@@ -3,14 +3,13 @@ import 'package:weather_forecast/model/weather_brain.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TempContainer extends StatelessWidget {
-  const TempContainer({
+  TempContainer({
     super.key,
     required this.temp,
     required this.title,
-    required WeatherBrain weatherBrain,
-  }) : _weatherBrain = weatherBrain;
+  });
 
-  final WeatherBrain _weatherBrain;
+  final WeatherBrain _weatherBrain = WeatherBrain();
   final String title;
   final double temp;
 

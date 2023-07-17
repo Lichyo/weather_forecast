@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:weather_forecast/model/weather_brain.dart';
 import 'package:weather_forecast/model/weather.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:weather_forecast/components/pop_container.dart';
-import 'package:weather_forecast/components/temp_container.dart';
+import 'package:weather_forecast/view/forecast_page.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -117,64 +116,7 @@ class _HomePageState extends State<HomePage>
           ),
           Visibility(
             visible: !_isLoad,
-            child: Expanded(
-              child: Column(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      color: Colors.blue,
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        TempContainer(
-                          weatherBrain: _weatherBrain,
-                          title: 'Min Temp',
-                          temp: 10,
-                        ),
-                        const VerticalDivider(
-                          thickness: 1,
-                        ),
-                        TempContainer(
-                          weatherBrain: _weatherBrain,
-                          title: 'Max Temp',
-                          temp: 30,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 5,
-                      horizontal: 30.0,
-                    ),
-                    child: Divider(
-                      thickness: 1,
-                    ),
-                  ),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        PopContainer(
-                          pop: 70,
-                        ),
-                        const VerticalDivider(
-                          thickness: 1,
-                        ),
-                        // ci
-                        Expanded(
-                          child: Container(
-                            color: Colors.redAccent.shade700,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            child: ForecastPage(weather: weathers[_selectedIndex],),
           ),
           Visibility(
             visible: _isLoad,
