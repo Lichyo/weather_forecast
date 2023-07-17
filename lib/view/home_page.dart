@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:weather_forecast/model/weather_brain.dart';
 import 'package:weather_forecast/model/weather.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:weather_forecast/components/pop_container.dart';
 import 'package:weather_forecast/components/temp_container.dart';
 
 class HomePage extends StatefulWidget {
@@ -131,7 +132,7 @@ class _HomePageState extends State<HomePage>
                         TempContainer(
                           weatherBrain: _weatherBrain,
                           title: 'Min Temp',
-                          temp: 20,
+                          temp: 10,
                         ),
                         const VerticalDivider(
                           thickness: 1,
@@ -149,49 +150,18 @@ class _HomePageState extends State<HomePage>
                       vertical: 5,
                       horizontal: 30.0,
                     ),
-                    child: Divider(thickness: 1,),
+                    child: Divider(
+                      thickness: 1,
+                    ),
                   ),
                   Expanded(
                     child: Row(
                       children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 10.0),
-                                  child: Text(
-                                    'Pop',
-                                    style: GoogleFonts.getFont(
-                                      'Ubuntu',
-                                      color: Colors.grey.shade600,
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: FittedBox(
-                                        child: Text(
-                                          '30%',
-                                          style: GoogleFonts.getFont('Roboto', fontWeight: FontWeight.w600),
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child:
-                                      _weatherBrain.determinePOPImage(30),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
+                        PopContainer(
+                          pop: 70,
+                        ),
+                        const VerticalDivider(
+                          thickness: 1,
                         ),
                         // ci
                         Expanded(

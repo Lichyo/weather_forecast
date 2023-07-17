@@ -2,31 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:weather_forecast/model/weather_brain.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TempContainer extends StatelessWidget {
-  const TempContainer({
+class PopContainer extends StatelessWidget {
+  PopContainer({
     super.key,
-    required this.temp,
-    required this.title,
-    required WeatherBrain weatherBrain,
-  }) : _weatherBrain = weatherBrain;
+    required this.pop,
+  });
 
-  final WeatherBrain _weatherBrain;
-  final String title;
-  final double temp;
+  final int pop;
+  final WeatherBrain _weatherBrain = WeatherBrain();
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-            horizontal: 20, vertical: 10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Text(
-                title,
+                'Pop',
                 style: GoogleFonts.getFont(
                   'Ubuntu',
                   color: Colors.grey.shade600,
@@ -38,19 +34,17 @@ class TempContainer extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: FittedBox(
-                    child: Text(
-                      '$temp ºC',
-                      style: GoogleFonts.getFont('Roboto', fontWeight: FontWeight.w600),
+                  child: Text(
+                    '$pop %',
+                    style: GoogleFonts.getFont(
+                      'Roboto',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 30.0,
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 10.0,
-                ),
                 Expanded(
-                  child:
-                  _weatherBrain.determineTempImage(temp),
+                  child: _weatherBrain.determinePOPImage(pop),
                 ),
               ],
             ),
