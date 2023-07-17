@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:weather_forecast/model/weather_brain.dart';
 import 'package:weather_forecast/model/weather.dart';
 import 'package:weather_forecast/view/forecast_page.dart';
+import 'package:weather_forecast/constants.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -45,10 +46,6 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Future<void> initWeathers({required String locationName}) async {
-    weathers = await _weatherBrain.initWeatherData(locationName: locationName);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,21 +86,13 @@ class _HomePageState extends State<HomePage>
                     onChanged: (value) {
                       _locationName = value;
                     },
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      hintText: '請輸入城市名稱',
-                    ),
+                    decoration: kSearchBarInputDecoration,
                   ),
                 ),
                 Expanded(
                   child: TextButton(
                     onPressed: () async {
-                      await initWeathers(locationName: _locationName);
+                      weathers = await _weatherBrain.initWeatherData(locationName: _locationName);
                       setState(() {
                         _isLoad = false;
                       });
