@@ -126,11 +126,22 @@ class _HomePageState extends State<HomePage>
                   Expanded(
                     child: Row(
                       children: [
-                        Expanded(
-                          child: Container(
-                            color: Colors.grey,
+                        // minT
+                        const Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 30),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // 臺北市
+                                Text(
+                                  'min Temp',
+                                ),
+                              ],
+                            ),
                           ),
                         ),
+                        // maxT
                         Expanded(
                           child: Container(
                             color: Colors.grey.shade700,
@@ -142,11 +153,13 @@ class _HomePageState extends State<HomePage>
                   Expanded(
                     child: Row(
                       children: [
+                        // pop
                         Expanded(
                           child: Container(
                             color: Colors.redAccent,
                           ),
                         ),
+                        // ci
                         Expanded(
                           child: Container(
                             color: Colors.redAccent.shade700,
