@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:weather_forecast/model/weather_brain.dart';
 import 'package:weather_forecast/model/weather.dart';
-import 'weather_forecast_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -42,10 +41,6 @@ class _HomePageState extends State<HomePage>
           maxT: 0,
           ci: ''),
     );
-    // initWeathers(locationName: '臺北市');
-    // setState(() {
-    //   _isLoad = false;
-    // });
   }
 
   Future<void> initWeathers({required String locationName}) async {
@@ -119,8 +114,49 @@ class _HomePageState extends State<HomePage>
           ),
           Visibility(
             visible: !_isLoad,
-            child: WeatherForecastPage(
-              weather: weathers[0],
+            child: Expanded(
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      color: Colors.blue,
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            color: Colors.grey.shade700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            color: Colors.redAccent.shade700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Visibility(

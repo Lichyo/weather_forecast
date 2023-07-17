@@ -13,8 +13,12 @@ class WeatherContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Text('$weatherElementName : $weatherElement'),
+      child: Container(
+        color: Colors.blue,
+        child: Text(
+          '$weatherElementName : $weatherElement',
+        ),
+      ),
     );
   }
-
 }
