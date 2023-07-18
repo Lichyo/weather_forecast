@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_forecast/model/weather.dart';
 import 'package:weather_forecast/components/pop_container.dart';
 import 'package:weather_forecast/components/temp_container.dart';
 import 'package:weather_forecast/components/ci_container.dart';
+import 'package:weather_forecast/model/weather_brain.dart';
 
 class ForecastPage extends StatelessWidget {
   const ForecastPage({
@@ -21,14 +21,35 @@ class ForecastPage extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  _weather.locationName,
-                  style: const TextStyle(
-                    fontFamily: 'cute',
-                    fontSize: 50.0,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10.0),
+                  child: Text(
+                    _weather.locationName,
+                    style: const TextStyle(
+                      fontFamily: 'cute',
+                      fontSize: 45.0,
+                    ),
+                    textAlign: TextAlign.left,
                   ),
-                  textAlign: TextAlign.left,
+                ),
+                Expanded(
+                  child: WeatherBrain().determineMeanTAnimation(maxT: _weather.maxT, minT: _weather.minT),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10.0),
+                  child: Text(
+                    _weather.wx,
+                    style: const TextStyle(
+                      color: Colors.grey,
+                      fontFamily: 'cute',
+                      fontSize: 25.0,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
                 ),
               ],
             ),
