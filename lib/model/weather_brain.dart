@@ -2,6 +2,7 @@ import 'package:weather_forecast/service/http_service.dart';
 import 'dart:convert';
 import 'weather.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class WeatherBrain {
   static const String weatherAPIKey =
@@ -88,5 +89,26 @@ class WeatherBrain {
     } else {
       return Image.asset('images/pop_icon/storm.png');
     }
+  }
+
+  LottieBuilder determineMeanTAnimation({required maxT, required minT}) {
+    final meanT = _calculateMeanTemp(maxT: maxT, minT: minT);
+    if (meanT < 10) {
+      return Lottie.network('https://lottie.host/a0f2e8fd-b674-4888-bb25-816e5d14c8fd/kh40Uuwswp.json');
+    } else if (meanT < 15) {
+      return Lottie.network('https://lottie.host/68953b91-eae8-41b9-a139-fb597fb23cb8/qKYyyIUcXz.json');
+    } else if (meanT < 22) {
+      return Lottie.network('https://lottie.host/b63c6855-0e59-4c92-aed4-09f5d08dd954/JV0Nx0hlD1.json');
+    } else if (meanT < 30) {
+      return Lottie.network('https://lottie.host/cdb52733-8980-430f-9e46-7c4428a98cdc/0J4e5QM9aX.json');
+    } else {
+      return Lottie.network('https://lottie.host/14d739fd-2464-4a38-b12a-c6017818cce8/aCyAl4Uinf.json'); //
+    }
+  }
+
+  int _calculateMeanTemp({required maxT, required minT}) {
+    final result = (maxT + minT) / 2;
+    final meanT = result.round();
+    return meanT;
   }
 }
