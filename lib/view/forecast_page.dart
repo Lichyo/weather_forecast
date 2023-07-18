@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weather_forecast/model/weather.dart';
 import 'package:weather_forecast/components/pop_container.dart';
 import 'package:weather_forecast/components/temp_container.dart';
+import 'package:weather_forecast/components/ci_container.dart';
 
 class ForecastPage extends StatelessWidget {
   const ForecastPage({
@@ -57,14 +58,8 @@ class ForecastPage extends StatelessWidget {
                 const VerticalDivider(
                   thickness: 1,
                 ),
-                // ci
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('舒適度', textAlign: TextAlign.right,),
-                    ],
-                  ),
+                CiContainer(
+                  ci: _weather.ci,
                 ),
               ],
             ),
