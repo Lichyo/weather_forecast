@@ -57,8 +57,7 @@ class _HomePageState extends State<HomePage>
   }
 
   Future<void> initWeathers({required String locationName}) async {
-    List<Weather> weathers =
-        await _weatherBrain.initWeatherData(locationName: locationName);
+    weathers = await _weatherBrain.getWeatherData(locationName: locationName);
     for (int i = 0; i < 3; i++) {
       print('locationName : ${weathers[i].locationName}');
       print('wx : ${weathers[i].wx}');

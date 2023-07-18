@@ -8,6 +8,18 @@ class WeatherBrain {
   static const String weatherAPIKey =
       'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-3B205859-51BF-4830-9704-EA17DD5C3C31';
   final HTTPService _httpService = HTTPService();
+
+  Weather defaultWeather() => Weather(
+    locationName: '臺北市',
+    wx: '',
+    pop: 0,
+    minT: 0,
+    maxT: 0,
+    ci: '',
+  );
+
+
+  Future getWeatherData({required String locationName}) async {
     final data = await _httpService.getWeatherData(api: weatherAPIKey);
     final response = jsonDecode(data.toString());
     final weathers = response["records"]['location'];
@@ -94,15 +106,20 @@ class WeatherBrain {
   LottieBuilder determineMeanTAnimation({required maxT, required minT}) {
     final meanT = _calculateMeanTemp(maxT: maxT, minT: minT);
     if (meanT < 10) {
-      return Lottie.network('https://lottie.host/a0f2e8fd-b674-4888-bb25-816e5d14c8fd/kh40Uuwswp.json');
+      return Lottie.network(
+          'https://lottie.host/a0f2e8fd-b674-4888-bb25-816e5d14c8fd/kh40Uuwswp.json');
     } else if (meanT < 15) {
-      return Lottie.network('https://lottie.host/68953b91-eae8-41b9-a139-fb597fb23cb8/qKYyyIUcXz.json');
+      return Lottie.network(
+          'https://lottie.host/68953b91-eae8-41b9-a139-fb597fb23cb8/qKYyyIUcXz.json');
     } else if (meanT < 22) {
-      return Lottie.network('https://lottie.host/b63c6855-0e59-4c92-aed4-09f5d08dd954/JV0Nx0hlD1.json');
+      return Lottie.network(
+          'https://lottie.host/b63c6855-0e59-4c92-aed4-09f5d08dd954/JV0Nx0hlD1.json');
     } else if (meanT < 30) {
-      return Lottie.network('https://lottie.host/cdb52733-8980-430f-9e46-7c4428a98cdc/0J4e5QM9aX.json');
+      return Lottie.network(
+          'https://lottie.host/cdb52733-8980-430f-9e46-7c4428a98cdc/0J4e5QM9aX.json');
     } else {
-      return Lottie.network('https://lottie.host/14d739fd-2464-4a38-b12a-c6017818cce8/aCyAl4Uinf.json'); //
+      return Lottie.network(
+          'https://lottie.host/14d739fd-2464-4a38-b12a-c6017818cce8/aCyAl4Uinf.json'); //
     }
   }
 
