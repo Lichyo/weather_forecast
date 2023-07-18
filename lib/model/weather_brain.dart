@@ -8,7 +8,16 @@ class WeatherBrain {
       'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-3B205859-51BF-4830-9704-EA17DD5C3C31';
   final HTTPService _httpService = HTTPService();
 
-  Future initWeatherData({required String locationName}) async {
+  Weather defaultWeather() => Weather(
+        locationName: '臺北市',
+        wx: '',
+        pop: 0,
+        minT: 0,
+        maxT: 0,
+        ci: '',
+      );
+
+  Future getWeatherData({required String locationName}) async {
     final data = await _httpService.getWeatherData(api: weatherAPIKey);
     final response = jsonDecode(data.toString());
     final weathers = response["records"]['location'];

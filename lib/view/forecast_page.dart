@@ -59,8 +59,11 @@ class ForecastPage extends StatelessWidget {
                 ),
                 // ci
                 Expanded(
-                  child: Container(
-                    color: Colors.redAccent.shade700,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('舒適度', textAlign: TextAlign.right,),
+                    ],
                   ),
                 ),
               ],

@@ -4,7 +4,7 @@ import 'package:weather_forecast/model/weather_brain.dart';
 import 'package:weather_forecast/model/weather.dart';
 import 'package:weather_forecast/view/forecast_page.dart';
 import 'package:weather_forecast/constants.dart';
-
+import 'package:weather_forecast/components/custom_search_delegate.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,11 +15,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-  String _locationName = '';
   late AnimationController _animationController;
   bool _isLoad = true;
   int _selectedIndex = 0;
   final WeatherBrain _weatherBrain = WeatherBrain();
+  final _fieldText = TextEditingController();
+  final FocusNode _focus = FocusNode();
+  String _locationName = '';
   List<Weather> weathers = [];
 
   void _onItemTapped(int index) {
@@ -28,51 +30,58 @@ class _HomePageState extends State<HomePage>
     });
   }
 
+  void _onFocusChange() {
+    showSearch(
+      context: context,
+      delegate: CustomSearchDelegate(queryLocation: (locationName) {
+        _locationName = locationName;
+        _fieldText.text = _locationName;
+      }),
+    );
+    _focus.unfocus();
+  }
+
   @override
   void initState() {
     super.initState();
+    _focus.addListener(_onFocusChange);
+    weathers.add(_weatherBrain.defaultWeather());
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3),
     )..repeat();
-    weathers.add(
-      Weather(
-          locationName: 'locationName',
-          wx: 'wx',
-          pop: 0,
-          minT: 0,
-          maxT: 0,
-          ci: ''),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: CircleAvatar(
-              backgroundImage: AssetImage('images/sun_raise.png'),
+      bottomNavigationBar: Visibility(
+        visible: !_isLoad,
+        child: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: CircleAvatar(
+                backgroundImage: AssetImage('images/sun_raise.png'),
+              ),
+              label: '00 ~ 06',
             ),
-            label: '00 ~ 06',
-          ),
-          BottomNavigationBarItem(
-            icon: CircleAvatar(
-              backgroundImage: AssetImage('images/sun_set.png'),
+            BottomNavigationBarItem(
+              icon: CircleAvatar(
+                backgroundImage: AssetImage('images/sun_set.png'),
+              ),
+              label: '06 ~ 18',
             ),
-            label: '06 ~ 18',
-          ),
-          BottomNavigationBarItem(
-            icon: CircleAvatar(
-              backgroundImage: AssetImage('images/moon_light.png'),
+            BottomNavigationBarItem(
+              icon: CircleAvatar(
+                backgroundImage: AssetImage('images/moon_light.png'),
+              ),
+              label: '18 ~ 06',
             ),
-            label: '18 ~ 06',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
-        onTap: _onItemTapped,
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.black,
+          onTap: _onItemTapped,
+        ),
       ),
       body: Column(
         children: [
@@ -83,6 +92,8 @@ class _HomePageState extends State<HomePage>
                 Expanded(
                   flex: 4,
                   child: TextField(
+                    focusNode: _focus,
+                    controller: _fieldText,
                     onChanged: (value) {
                       _locationName = value;
                     },
@@ -92,10 +103,14 @@ class _HomePageState extends State<HomePage>
                 Expanded(
                   child: TextButton(
                     onPressed: () async {
-                      weathers = await _weatherBrain.initWeatherData(locationName: _locationName);
+                      weathers = await _weatherBrain.getWeatherData(
+                        locationName: _locationName,
+                      );
                       setState(() {
                         _isLoad = false;
                       });
+                      _fieldText.clear();
+                      _locationName = '';
                     },
                     child: const Text('確認'),
                   ),
@@ -105,7 +120,7 @@ class _HomePageState extends State<HomePage>
           ),
           Visibility(
             visible: !_isLoad,
-            child: ForecastPage(weather: weathers[_selectedIndex],),
+            child: ForecastPage(weather: weathers[_selectedIndex]),
           ),
           Visibility(
             visible: _isLoad,
