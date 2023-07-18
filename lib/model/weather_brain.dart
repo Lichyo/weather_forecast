@@ -1,12 +1,12 @@
 import 'package:weather_forecast/service/http_service.dart';
 import 'dart:convert';
 import 'weather.dart';
+import 'package:flutter/material.dart';
 
 class WeatherBrain {
   static const String weatherAPIKey =
       'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-3B205859-51BF-4830-9704-EA17DD5C3C31';
   final HTTPService _httpService = HTTPService();
-  Future initWeatherData({required String locationName}) async {
     final data = await _httpService.getWeatherData(api: weatherAPIKey);
     final response = jsonDecode(data.toString());
     final weathers = response["records"]['location'];
@@ -59,6 +59,34 @@ class WeatherBrain {
               'there is not Data, please check wifi or whether the city name is corrected');
         }
       }
+    }
+  }
+
+  Image determineTempImage(double temp) {
+    if (temp <= 10) {
+      return Image.asset('images/temp_icon/10ºC.png');
+    } else if (temp <= 20) {
+      return Image.asset('images/temp_icon/20ºC.png');
+    } else if (temp <= 25) {
+      return Image.asset('images/temp_icon/25ºC.png');
+    } else if (temp <= 30) {
+      return Image.asset('images/temp_icon/30ºC.png');
+    } else {
+      return Image.asset('images/temp_icon/35ºC.png');
+    }
+  }
+
+  Image determinePOPImage(int pop) {
+    if (pop <= 30) {
+      return Image.asset('images/pop_icon/sun.png');
+    } else if (pop <= 40) {
+      return Image.asset('images/pop_icon/cloudy.png');
+    } else if (pop <= 60) {
+      return Image.asset('images/pop_icon/clouds.png');
+    } else if (pop <= 80) {
+      return Image.asset('images/pop_icon/rain.png');
+    } else {
+      return Image.asset('images/pop_icon/storm.png');
     }
   }
 }
