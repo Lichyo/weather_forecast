@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_forecast/model/weather.dart';
 import 'package:weather_forecast/components/pop_container.dart';
 import 'package:weather_forecast/components/temp_container.dart';
@@ -19,8 +20,26 @@ class ForecastPage extends StatelessWidget {
         children: [
           Expanded(
             flex: 2,
-            child: Container(
-              color: Colors.blue,
+            child: Column(
+              children: [
+                Text(
+                  _weather.locationName,
+                  style: const TextStyle(
+                    fontFamily: 'cute',
+                    fontSize: 50.0,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: 5,
+              horizontal: 30.0,
+            ),
+            child: Divider(
+              thickness: 1,
             ),
           ),
           Expanded(
