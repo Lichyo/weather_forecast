@@ -8,8 +8,9 @@ class WeatherForecast extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomePage(),
+    return MaterialApp(
+      // theme: ThemeData.dark(),
+      home: const HomePage(),
     );
   }
 }

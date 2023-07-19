@@ -138,7 +138,9 @@ class _HomePageState extends State<HomePage>
           ),
           Visibility(
             visible: !_isLoad,
-            child: ForecastPage(weather: weathers[_selectedIndex]),
+            child: ForecastPage(
+              weather: weathers[_selectedIndex],
+            ),
           ),
           Visibility(
             visible: _isLoad,
