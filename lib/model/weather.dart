@@ -5,6 +5,7 @@ class Weather {
   double minT;
   double maxT;
   String ci;
+  int? meanT;
 
   Weather({
     required this.locationName,
@@ -13,5 +14,6 @@ class Weather {
     required this.minT,
     required this.maxT,
     required this.ci,
+    this.meanT,
   });
 }

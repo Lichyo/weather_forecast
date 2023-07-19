@@ -25,7 +25,7 @@ class ForecastPage extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 10.0),
+                      horizontal: 20.0, vertical: 15.0),
                   child: Text(
                     _weather.locationName,
                     style: const TextStyle(
@@ -36,11 +36,14 @@ class ForecastPage extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: WeatherBrain().determineMeanTAnimation(maxT: _weather.maxT, minT: _weather.minT),
+                  child: WeatherBrain().determineMeanTAnimation(
+                    maxT: _weather.maxT,
+                    minT: _weather.minT,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 10.0),
+                      horizontal: 20.0, vertical: 12.0,),
                   child: Text(
                     _weather.wx,
                     style: const TextStyle(
@@ -70,8 +73,8 @@ class ForecastPage extends StatelessWidget {
                   title: 'Min Temp',
                   temp: _weather.minT,
                 ),
-                const VerticalDivider(
-                  thickness: 1,
+                const SizedBox(
+                  width: 10,
                 ),
                 TempContainer(
                   title: 'Max Temp',
@@ -80,14 +83,8 @@ class ForecastPage extends StatelessWidget {
               ],
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: 5,
-              horizontal: 30.0,
-            ),
-            child: Divider(
-              thickness: 1,
-            ),
+          const SizedBox(
+            height: 10,
           ),
           Expanded(
             child: Row(
@@ -95,14 +92,18 @@ class ForecastPage extends StatelessWidget {
                 PopContainer(
                   pop: _weather.pop,
                 ),
-                const VerticalDivider(
-                  thickness: 1,
+                const SizedBox(
+                  width: 10,
                 ),
                 CiContainer(
                   ci: _weather.ci,
                 ),
               ],
             ),
+          ),
+          const SizedBox(
+            height: 10,
+            width: double.infinity,
           ),
         ],
       ),
