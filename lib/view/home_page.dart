@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:weather_forecast/model/weather_brain.dart';
 import 'package:weather_forecast/model/weather.dart';
-
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:weather_forecast/view/forecast_page.dart';
 import 'package:weather_forecast/constants.dart';
 import 'package:weather_forecast/components/custom_search_delegate.dart';
@@ -51,12 +51,6 @@ class _HomePageState extends State<HomePage>
       vsync: this,
       duration: const Duration(seconds: 3),
     )..repeat();
-  }
-
-  Future<void> initWeathers({required String locationName}) async {
-    try {
-      weathers = await _weatherBrain.getWeatherData(locationName: locationName);
-    } catch (e) {}
   }
 
   @override
@@ -110,9 +104,29 @@ class _HomePageState extends State<HomePage>
                 Expanded(
                   child: TextButton(
                     onPressed: () async {
-                      weathers = await _weatherBrain.getWeatherData(
-                        locationName: _locationName,
-                      );
+                      try {
+                        weathers = await _weatherBrain.getWeatherData(
+                          locationName: _locationName,
+                        );
+                      } catch(e) {
+                        Alert(
+                          context: context,
+                          type: AlertType.error,
+                          title: "查無資料",
+                          desc: "請確認網路連線，或是城市名稱無錯誤",
+                          buttons: [
+                            DialogButton(
+                              onPressed: () => Navigator.pop(context),
+                              width: 120,
+                              child: const Text(
+                                "回主畫面",
+                                style: TextStyle(color: Colors.white, fontSize: 20),
+                              ),
+                            )
+                          ],
+                        ).show();
+                      }
+
                       setState(() {
                         _isLoad = false;
                       });
