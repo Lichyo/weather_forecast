@@ -7,7 +7,6 @@ import 'package:weather_forecast/view/forecast_page.dart';
 import 'package:weather_forecast/constants.dart';
 import 'package:weather_forecast/components/custom_search_delegate.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -17,7 +16,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
-
   late AnimationController _animationController;
   bool _isLoad = true;
   int _selectedIndex = 0;
@@ -26,7 +24,6 @@ class _HomePageState extends State<HomePage>
   final FocusNode _focus = FocusNode();
   String _locationName = '';
   List<Weather> weathers = [];
-
 
   void _onItemTapped(int index) {
     setState(() {
@@ -57,16 +54,9 @@ class _HomePageState extends State<HomePage>
   }
 
   Future<void> initWeathers({required String locationName}) async {
-    weathers = await _weatherBrain.getWeatherData(locationName: locationName);
-    for (int i = 0; i < 3; i++) {
-      print('locationName : ${weathers[i].locationName}');
-      print('wx : ${weathers[i].wx}');
-      print('minT : ${weathers[i].minT}');
-      print('maxT : ${weathers[i].maxT}');
-      print('pop : ${weathers[i].pop}');
-      print('ci : ${weathers[i].ci}');
-      print('===========================');
-    }
+    try {
+      weathers = await _weatherBrain.getWeatherData(locationName: locationName);
+    } catch (e) {}
   }
 
   @override
@@ -128,7 +118,6 @@ class _HomePageState extends State<HomePage>
                       });
                       _fieldText.clear();
                       _locationName = '';
-
                     },
                     child: const Text('確認'),
                   ),
