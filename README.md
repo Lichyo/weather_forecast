@@ -1,16 +1,18 @@
-# weather_forecast
+# Porject Description
+提供台灣android / ios用戶查找最近36 hrs的天氣狀況，包含當日最高、低溫、天氣狀況(ci)、降雨機率(pop)等...
 
-A new Flutter project.
+Provider Taiwan android / ios User search for last 36 hours weather in their city, which including wx, pop, ci, temperature etc.
 
-## Getting Started
+# Running Requirement
+- Flutter 3.10.6 
+- Dart 3.0.6 
 
-This project is a starting point for a Flutter application.
+# User Manual
+在App 頂端Search Bar輸入欲查詢天氣狀況之城市名（中文），並且點擊下方以茶訊到的城市名稱；接著在主畫面右上角點擊倔任進行查詢，若是查詢失敗則會跳出錯誤視窗，確認是否有輸入錯誤名稱或是網路狀況！
 
-A few resources to get you started if this is your first Flutter project:
+輸入正確會顯示當日00:00 ~ 06:00的天氣預報，可以點擊主畫面最下方得按鈕選擇不同時段的天氣預報。
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+# 
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## ![範例影片](https://github.com/Lichyo/weather_forecast/blob/main/Screen%20Recording%202023-07-20%20at%2011.08.50%20PM.mov)
+
