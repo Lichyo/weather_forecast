@@ -1,6 +1,6 @@
 import 'package:weather_forecast/service/http_service.dart';
 import 'dart:convert';
-import 'weather.dart';
+import '../model/weather.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -8,14 +8,13 @@ class WeatherApiService {
   WeatherApiService._();
 
   static WeatherApiService? _instance;
-
   static WeatherApiService get instance {
     _instance ??= WeatherApiService._();
     return _instance!;
   }
 
   static const String _weatherAPIKey =
-      'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-3B205859-51BF-4830-9704-EA17DD5C3C31';
+      'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-86D56E38-2EAF-4699-B807-29AD5B4B9800';
   final HTTPService _httpService = HTTPService.instance;
 
   Weather defaultWeather() => Weather(

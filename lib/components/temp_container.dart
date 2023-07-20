@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather_forecast/model/weather_api_service.dart';
+import 'package:weather_forecast/service/weather_api_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TempContainer extends StatelessWidget {

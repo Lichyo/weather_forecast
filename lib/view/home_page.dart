@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:weather_forecast/model/weather_api_service.dart';
+import 'package:weather_forecast/service/weather_api_service.dart';
 import 'package:weather_forecast/model/weather.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:weather_forecast/view/forecast_page.dart';
@@ -17,8 +17,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-  bool _isLoad = true;
   bool _isInit = true;
+  bool _isLoad = false;
   int _selectedIndex = 0;
   final _weatherApiService = WeatherApiService.instance;
   final _fieldText = TextEditingController();
@@ -54,11 +54,12 @@ class _HomePageState extends State<HomePage>
     )..repeat();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: Visibility(
-        visible: !_isLoad,
+        visible: !_isInit,
         child: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -85,83 +86,86 @@ class _HomePageState extends State<HomePage>
           onTap: _onItemTapped,
         ),
       ),
-      body: _isLoad
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
+      body: Column(
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.only(top: 70.0, left: 30.0, right: 30.0),
+            child: Row(
               children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.only(top: 70.0, left: 30.0, right: 30.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 4,
-                        child: TextField(
-                          focusNode: _focus,
-                          controller: _fieldText,
-                          onChanged: (value) {
-                            _locationName = value;
-                          },
-                          decoration: kSearchBarInputDecoration,
-                        ),
-                      ),
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () async {
-                            try {
-                              _weathers =
-                                  await _weatherApiService.getWeatherData(
-                                locationName: _locationName,
-                              );
-                            } catch (e) {
-                              Alert(
-                                context: context,
-                                type: AlertType.error,
-                                title: "查無資料",
-                                desc: "請確認網路連線，或是城市名稱無錯誤",
-                                buttons: [
-                                  DialogButton(
-                                    onPressed: () => Navigator.pop(context),
-                                    width: 120,
-                                    child: const Text(
-                                      "回主畫面",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 20),
-                                    ),
-                                  )
-                                ],
-                              ).show();
-                            }
+                Expanded(
+                  flex: 4,
+                  child: TextField(
+                    focusNode: _focus,
+                    controller: _fieldText,
+                    onChanged: (value) {
+                      _locationName = value;
+                    },
+                    decoration: kSearchBarInputDecoration,
+                  ),
+                ),
+                Expanded(
+                  child: TextButton(
+                    onPressed: () async {
+                      setState(() {
+                        _isLoad = true;
+                      });
+                      try {
+                        _weathers = await _weatherApiService.getWeatherData(
+                          locationName: _locationName,
+                        );
+                      } catch (e) {
+                        Alert(
+                          context: context,
+                          type: AlertType.error,
+                          title: "查無資料",
+                          desc: "請確認網路連線，或是城市名稱無錯誤",
+                          buttons: [
+                            DialogButton(
+                              onPressed: () => Navigator.pop(context),
+                              width: 120,
+                              child: const Text(
+                                "回主畫面",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                            )
+                          ],
+                        ).show();
+                      }
 
-                            setState(() {
-                              _isLoad = false;
-                            });
-                            _fieldText.clear();
-                            _locationName = '';
-                          },
-                          child: const Text('確認'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Visibility(
-                  visible: !_isLoad,
-                  child: ForecastPage(
-                    weather: _weathers[_selectedIndex],
-                  ),
-                ),
-                Visibility(
-                  visible: _isInit,
-                  child: Expanded(
-                    child: Lottie.network(
-                      'https://lottie.host/a412eaae-6d84-4b34-a956-d224e1d446a9/wNaEB4gAUS.json',
-                      controller: _animationController,
-                    ),
+                      setState(() {
+                        _isLoad = false;
+                        _isInit = false;
+                      });
+                      _fieldText.clear();
+                      _locationName = '';
+                    },
+                    child: const Text('確認'),
                   ),
                 ),
               ],
             ),
+          ),
+          Visibility(
+            visible: !_isInit,
+            child: _isLoad
+                ? const Center(child: CircularProgressIndicator())
+                : ForecastPage(
+                    weather: _weathers[_selectedIndex],
+                  ),
+          ),
+          Visibility(
+            visible: _isInit,
+            child: Expanded(
+              child: Lottie.network(
+                'https://lottie.host/a412eaae-6d84-4b34-a956-d224e1d446a9/wNaEB4gAUS.json',
+                controller: _animationController,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

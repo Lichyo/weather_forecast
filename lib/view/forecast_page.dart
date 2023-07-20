@@ -3,7 +3,7 @@ import 'package:weather_forecast/model/weather.dart';
 import 'package:weather_forecast/components/pop_container.dart';
 import 'package:weather_forecast/components/temp_container.dart';
 import 'package:weather_forecast/components/ci_container.dart';
-import 'package:weather_forecast/model/weather_api_service.dart';
+import 'package:weather_forecast/service/weather_api_service.dart';
 
 class ForecastPage extends StatelessWidget {
   ForecastPage({

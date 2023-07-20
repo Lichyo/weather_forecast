@@ -8,6 +8,7 @@ class HTTPService {
     _instance ??= HTTPService._();
     return _instance!;
   }
+
   Future getWeatherData({required api}) async {
     try {
       var response = await Dio().get(api);

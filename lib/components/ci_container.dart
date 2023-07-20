@@ -6,7 +6,6 @@ class CiContainer extends StatelessWidget {
     super.key,
     required this.ci,
   });
-
   final String ci;
 
   @override
