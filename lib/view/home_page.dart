@@ -18,6 +18,7 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   bool _isLoad = true;
+  bool _isInit = true;
   int _selectedIndex = 0;
   final _weatherApiService = WeatherApiService.instance;
   final _fieldText = TextEditingController();
@@ -84,78 +85,83 @@ class _HomePageState extends State<HomePage>
           onTap: _onItemTapped,
         ),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 70.0, left: 30.0, right: 30.0),
-            child: Row(
+      body: _isLoad
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
               children: [
-                Expanded(
-                  flex: 4,
-                  child: TextField(
-                    focusNode: _focus,
-                    controller: _fieldText,
-                    onChanged: (value) {
-                      _locationName = value;
-                    },
-                    decoration: kSearchBarInputDecoration,
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 70.0, left: 30.0, right: 30.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 4,
+                        child: TextField(
+                          focusNode: _focus,
+                          controller: _fieldText,
+                          onChanged: (value) {
+                            _locationName = value;
+                          },
+                          decoration: kSearchBarInputDecoration,
+                        ),
+                      ),
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () async {
+                            try {
+                              _weathers =
+                                  await _weatherApiService.getWeatherData(
+                                locationName: _locationName,
+                              );
+                            } catch (e) {
+                              Alert(
+                                context: context,
+                                type: AlertType.error,
+                                title: "查無資料",
+                                desc: "請確認網路連線，或是城市名稱無錯誤",
+                                buttons: [
+                                  DialogButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    width: 120,
+                                    child: const Text(
+                                      "回主畫面",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 20),
+                                    ),
+                                  )
+                                ],
+                              ).show();
+                            }
+
+                            setState(() {
+                              _isLoad = false;
+                            });
+                            _fieldText.clear();
+                            _locationName = '';
+                          },
+                          child: const Text('確認'),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Expanded(
-                  child: TextButton(
-                    onPressed: () async {
-                      try {
-                        _weathers = await _weatherApiService.getWeatherData(
-                          locationName: _locationName,
-                        );
-                      } catch(e) {
-                        Alert(
-                          context: context,
-                          type: AlertType.error,
-                          title: "查無資料",
-                          desc: "請確認網路連線，或是城市名稱無錯誤",
-                          buttons: [
-                            DialogButton(
-                              onPressed: () => Navigator.pop(context),
-                              width: 120,
-                              child: const Text(
-                                "回主畫面",
-                                style: TextStyle(color: Colors.white, fontSize: 20),
-                              ),
-                            )
-                          ],
-                        ).show();
-                      }
-
-                      setState(() {
-                        _isLoad = false;
-                      });
-                      _fieldText.clear();
-                      _locationName = '';
-                    },
-                    child: const Text('確認'),
+                Visibility(
+                  visible: !_isLoad,
+                  child: ForecastPage(
+                    weather: _weathers[_selectedIndex],
+                  ),
+                ),
+                Visibility(
+                  visible: _isInit,
+                  child: Expanded(
+                    child: Lottie.network(
+                      'https://lottie.host/a412eaae-6d84-4b34-a956-d224e1d446a9/wNaEB4gAUS.json',
+                      controller: _animationController,
+                    ),
                   ),
                 ),
               ],
             ),
-          ),
-          Visibility(
-            visible: !_isLoad,
-            child: ForecastPage(
-              weather: _weathers[_selectedIndex],
-            ),
-          ),
-          Visibility(
-            visible: _isLoad,
-            child: Expanded(
-              child: Lottie.network(
-                'https://lottie.host/a412eaae-6d84-4b34-a956-d224e1d446a9/wNaEB4gAUS.json',
-                controller: _animationController,
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
