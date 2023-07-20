@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:weather_forecast/model/weather_brain.dart';
+import 'package:weather_forecast/model/weather_api_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TempContainer extends StatelessWidget {
-  TempContainer({
+  const TempContainer({
     super.key,
     required this.temp,
     required this.title,
+    required this.image,
   });
 
-  final WeatherBrain _weatherBrain = WeatherBrain();
   final String title;
   final double temp;
+  final Image image;
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +52,7 @@ class TempContainer extends StatelessWidget {
                     width: 10.0,
                   ),
                   Expanded(
-                    child:
-                    _weatherBrain.determineTempImage(temp),
+                    child: image,
                   ),
                 ],
               ),

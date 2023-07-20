@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:weather_forecast/model/weather_brain.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PopContainer extends StatelessWidget {
-  PopContainer({
+  const PopContainer({
     super.key,
     required this.pop,
+    required this.image,
   });
-
+  final Image image;
   final int pop;
-  final WeatherBrain _weatherBrain = WeatherBrain();
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +46,7 @@ class PopContainer extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: _weatherBrain.determinePOPImage(pop),
+                    child: image,
                   ),
                 ],
               ),
