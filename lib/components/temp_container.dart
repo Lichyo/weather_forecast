@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather_forecast/model/weather_brain.dart';
+import 'package:weather_forecast/model/weather_api_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TempContainer extends StatelessWidget {
@@ -9,7 +9,7 @@ class TempContainer extends StatelessWidget {
     required this.title,
   });
 
-  final WeatherBrain _weatherBrain = WeatherBrain();
+  final WeatherApiService _weatherBrain = WeatherApiService.instance;
   final String title;
   final double temp;
 

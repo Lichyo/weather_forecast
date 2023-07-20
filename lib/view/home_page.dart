@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:weather_forecast/model/weather_brain.dart';
+import 'package:weather_forecast/model/weather_api_service.dart';
 import 'package:weather_forecast/model/weather.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:weather_forecast/view/forecast_page.dart';
@@ -19,11 +19,11 @@ class _HomePageState extends State<HomePage>
   late AnimationController _animationController;
   bool _isLoad = true;
   int _selectedIndex = 0;
-  final WeatherBrain _weatherBrain = WeatherBrain();
+  final _weatherApiService = WeatherApiService.instance;
   final _fieldText = TextEditingController();
   final FocusNode _focus = FocusNode();
   String _locationName = '';
-  List<Weather> weathers = [];
+  List<Weather> _weathers = [];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
     _focus.addListener(_onFocusChange);
-    weathers.add(_weatherBrain.defaultWeather());
+    _weathers.add(_weatherApiService.defaultWeather());
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 3),
@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage>
                   child: TextButton(
                     onPressed: () async {
                       try {
-                        weathers = await _weatherBrain.getWeatherData(
+                        _weathers = await _weatherApiService.getWeatherData(
                           locationName: _locationName,
                         );
                       } catch(e) {
@@ -142,7 +142,7 @@ class _HomePageState extends State<HomePage>
           Visibility(
             visible: !_isLoad,
             child: ForecastPage(
-              weather: weathers[_selectedIndex],
+              weather: _weathers[_selectedIndex],
             ),
           ),
           Visibility(

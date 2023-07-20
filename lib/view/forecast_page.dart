@@ -3,7 +3,7 @@ import 'package:weather_forecast/model/weather.dart';
 import 'package:weather_forecast/components/pop_container.dart';
 import 'package:weather_forecast/components/temp_container.dart';
 import 'package:weather_forecast/components/ci_container.dart';
-import 'package:weather_forecast/model/weather_brain.dart';
+import 'package:weather_forecast/model/weather_api_service.dart';
 
 class ForecastPage extends StatelessWidget {
   const ForecastPage({
@@ -36,7 +36,7 @@ class ForecastPage extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: WeatherBrain().determineMeanTAnimation(
+                  child: WeatherApiService.instance.determineMeanTAnimation(
                     maxT: _weather.maxT,
                     minT: _weather.minT,
                   ),
